@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, "Please provide a username"],
-        unique: true
+        //unique: true
     },
 
     email: {
@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
     verifyTokenExpiry: Date,
 });
 
-const User: Model<Document> = mongoose.models.users || mongoose.model("user", userSchema);
+interface UserDocument extends Document {
+    email: string;
+    password: string;
+    username?: string
+}
+
+
+const User: Model<UserDocument> = mongoose.models.user || mongoose.model("user", userSchema);
 
 export default User;
