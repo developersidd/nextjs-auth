@@ -1,6 +1,5 @@
 "use client";
 
-import Toast from '@/ui/Toast';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -38,14 +37,14 @@ const LoginPage = () => {
       const res = await axios.post("/api/users/login", user);
 
       //if (res.data) {
-        toast.success(res.data.message);
-        resetForm();
-          router.push(`/profile`) 
-        return null;
+      toast.success(res.data.message);
+      resetForm();
+      router.push(`/profile`)
+      return null;
       //}
 
     } catch (error: any) {
-      console.log("error:", error)
+      //e.log("error:", error)
       toast.error(error?.response?.data?.error);
 
     } finally {

@@ -6,15 +6,15 @@ export const connect = async () => {
         const connection = mongoose.connection;
 
         connection.on("connected", () => {
-            console.log("MongoDB connected Successfully");
+            //e.log("MongoDB connected Successfully");
         })
 
         connection.on("error", (err) => {
-            console.log(`Connection error ${err}`);
+            //e.log(`Connection error ${err}`);
             process.exit();
         })
 
     } catch (error) {
-        console.log(`Something goes wrong with connecting Database ${error}`);
+        //e.log(`Something goes wrong with connecting Database ${error}`);
     }
 } 

@@ -25,7 +25,7 @@ const ConfirmResetPassword = () => {
         try {
             setLoading(true);
             const res = await axios.post("/api/users/confirmresetpassword", { password, token });
-            console.log("res:", res)
+            //e.log("res:", res)
             toast.success(res.data?.message);
             router.push(`/login`);
         } catch (error: any) {

@@ -22,7 +22,7 @@ const UserProfile = () => {
         setUser(res.data.user)
       } catch (error: any) {
         toast.error(error.message);
-      }finally{
+      } finally {
         setLoading(false);
       }
     }
@@ -33,9 +33,9 @@ const UserProfile = () => {
     try {
       const res = await axios.get("/api/users/logout");
       toast.success(res.data.message);
-       router.push(`/login`);
+      router.push(`/login`);
     } catch (error: any) {
-      console.log("error:", error)
+      //e.log("error:", error)
       toast.error(error.message);
     }
   }
@@ -46,10 +46,10 @@ const UserProfile = () => {
       <p className='mb-5'>
         User Profile : <span> {user?.username}  </span>
       </p>
-      
+
       {
-loading ? <p> ...Loading </p> : (<> <p> {user?.username} </p>
-<p> {user?.email} </p> </>)
+        loading ? <p> ...Loading </p> : (<> <p> {user?.username} </p>
+          <p> {user?.email} </p> </>)
       }
 
       <button onClick={logout} className='mt-5 bg-blue-600 text-white font-medium px-5 py-2'> Logout </button>

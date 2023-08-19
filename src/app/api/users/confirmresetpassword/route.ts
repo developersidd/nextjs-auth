@@ -12,11 +12,11 @@ export async function POST(req: NextRequest) {
 
     try {
         const user = await User.findOne({ forgorPasswordToken: token, forgotPasswordTokenExpiry: { $gt: Date.now() } })
-        console.log("user:", user)
+        //e.log("user:", user)
         if (!user) {
             return NextResponse.json({ error: "There was an Error while Reseting email" }, { status: 500 });
         }
-        console.log("user:", user);
+        //e.log("user:", user);
 
         // if all validation is done then update user verification in DB
         user.password = hashedPass;

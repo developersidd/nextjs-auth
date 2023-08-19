@@ -13,11 +13,11 @@ export async function POST(req: NextRequest) {
         if (!user) {
             return NextResponse.json({ error: "There was an Error Reseting Password" }, { status: 400 });
         }
-        console.log("user:", user);
+        //e.log("user:", user);
         const res = await sendEmail({ email, emailType: "RESET", userId: user?._id });
         return NextResponse.json({ message: "User found", success: "ok", ...res }, { status: 200 });
     } catch (error: any) {
-        console.log("error:", error)
+        //e.log("error:", error)
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 }

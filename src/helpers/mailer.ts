@@ -1,19 +1,19 @@
 import User from "@/models/userModel";
-import nodemailer from "nodemailer";
 import bcrypt from 'bcryptjs';
+import nodemailer from "nodemailer";
 
 export const sendEmail = async ({ email, emailType, userId }: any) => {
-    console.log("email, emailType, userId:", email, emailType, userId)
+    //e.log("email, emailType, userId:", email, emailType, userId)
 
     try {
         const hashedToken = await bcrypt.hash(userId.toString(), 10);
         if (emailType === "VERIFY") {
             const updatedUser = await User.findByIdAndUpdate(userId, { verifyToken: hashedToken, verifyTokenExpiry: Date.now() + 3600000 }, { new: true });
-            console.log("updatedUser:", updatedUser);
+            //e.log("updatedUser:", updatedUser);
 
         } else if (emailType === "RESET") {
             const updatedUser = await User.findByIdAndUpdate(userId, { forgorPasswordToken: hashedToken, forgotPasswordTokenExpiry: Date.now() + 3600000 }, { new: true });
-            console.log("updatedUser:", updatedUser);
+            //e.log("updatedUser:", updatedUser);
         }
 
         const transport = nodemailer.createTransport({
@@ -35,14 +35,14 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
         }
 
         const mailResponse = await transport.sendMail(mailOptions);
-        console.log("mailResponse:", mailResponse)
+        //e.log("mailResponse:", mailResponse)
         return {
             subject: `${emailType === "VERIFY" ? "verify your email" : "Reset your password"}`,
             link: `${process.env.DOMAIN}/${emailType === "VERIFY" ? "verifyemail" : "confirmresetpassword"}?token=${hashedToken}`
         };
 
     } catch (error: any) {
-        console.log("error:", error)
+        //e.log("error:", error)
         throw new Error(error.message);
     }
 }
