@@ -5,7 +5,7 @@ type TokenType = {
     email: string;
     username: string;
 }
-export const getDataFromToken = (req: NextRequest) => {
+export function getDataFromToken(req: NextRequest) {
     try {
         const token = req.cookies.get("token")?.value || "";
         const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET!) as TokenType;
