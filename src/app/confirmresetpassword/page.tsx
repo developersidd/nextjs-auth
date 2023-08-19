@@ -1,7 +1,7 @@
 "use client";
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 const ConfirmResetPassword = () => {
@@ -17,11 +17,11 @@ const ConfirmResetPassword = () => {
         if (password !== confirmPassword) {
             return toast.error("Password and confirm password didn't match!");
         }
-        
+
         if (!token) {
             return toast.error("Token was not found");
         }
-        
+
         try {
             setLoading(true);
             const res = await axios.post("/api/users/confirmresetpassword", { password, token });
@@ -30,7 +30,7 @@ const ConfirmResetPassword = () => {
             router.push(`/login`);
         } catch (error: any) {
             toast.error(error.response?.data?.message);
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
