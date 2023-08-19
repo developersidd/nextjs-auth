@@ -40,13 +40,13 @@ const LoginPage = () => {
       //if (res.data) {
         toast.success(res.data.message);
         resetForm();
-          router.push(`/profile/${res.data.user?._id}`) 
+          router.push(`/profile`) 
         return null;
       //}
 
     } catch (error: any) {
       console.log("error:", error)
-      toast.error(error.message);
+      toast.error(error?.response?.data?.error);
 
     } finally {
       setLoading(false);

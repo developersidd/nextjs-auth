@@ -27,11 +27,12 @@ const SignUpPage = () => {
         try {
             setLoading(true);
             const res = await axios.post("/api/users/signup", user);
+            router.push("/login");
             toast.success(
                 <div>
-                    <h3> {res.data.message} </h3>
-                    <Link href={res.data.link}> {res.data.subject} </Link>
-                </div>,
+          <h3 className='text-sm'> {res.data.message} </h3>
+          <Link className='underline decoration-blue-500' href={res.data.link}> {res.data.subject} </Link>
+        </div>,
                 {
                     position: "bottom-right",
                     duration: 10000

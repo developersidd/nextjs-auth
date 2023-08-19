@@ -7,7 +7,6 @@ connect();
 
 export async function POST(req: NextRequest) {
     const reqBody = await req.json();
-    console.log("reqBody:", reqBody)
     const { token, password } = reqBody;
     const hashedPass = await bcrypt.hash(password, 10);
 

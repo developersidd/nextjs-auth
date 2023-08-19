@@ -9,7 +9,7 @@ type UserType = {
   email: string;
 }
 
-const UserProfile = ({ params: { id } }: { params: { id: string } }) => {
+const UserProfile = () => {
   const router = useRouter();
   const [user, setUser] = useState<UserType>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -44,11 +44,14 @@ const UserProfile = ({ params: { id } }: { params: { id: string } }) => {
     <div className="bg-white h-screen p-20">
       <Toast />
       <p className='mb-5'>
-        User Profile : <span> {id} </span>
+        User Profile : <span> {user?.username}  </span>
       </p>
-      <p> {loading && "...Loading"} </p>
-      <p> {user?.username} </p>
-      <p> {user?.email} </p>
+      
+      {
+loading ? <p> ...Loading </p> : (<> <p> {user?.username} </p>
+<p> {user?.email} </p> </>)
+      }
+
       <button onClick={logout} className='mt-5 bg-blue-600 text-white font-medium px-5 py-2'> Logout </button>
     </div>
   )

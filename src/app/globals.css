@@ -19,3 +19,7 @@
 body {
   
 }
+
+button:disabled{
+  opacity: 60%
+}
