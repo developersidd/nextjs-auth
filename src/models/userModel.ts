@@ -29,12 +29,26 @@ const userSchema = new mongoose.Schema({
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
+    createdAt: {
+        type: Date,
+        default: () => new Date()
+    },
+    updatedAt: {
+        type: Date,
+        default: () => new Date()
+    },
 });
 
 interface UserDocument extends Document {
     email: string;
     password: string;
-    username?: string
+    username?: string;
+    forgorPasswordToken: string;
+    forgotPasswordTokenExpiry: Date | undefined;
+    verifyToken: string;
+    verifyTokenExpiry: Date | undefined;
+    isVerified: boolean;
+    isAdmin: boolean;
 }
 
 

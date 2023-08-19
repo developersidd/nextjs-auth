@@ -1,11 +1,11 @@
 "use client";
 
+import Toast from '@/ui/Toast';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect, FormEvent } from 'react'
-import toast, { Toaster } from 'react-hot-toast';
-
+import { FormEvent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 
 const LoginPage = () => {
@@ -16,6 +16,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+
   const resetForm = () => (setUser({
     email: "",
     password: "",
@@ -31,28 +32,32 @@ const LoginPage = () => {
 
   const onLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
       setLoading(true);
       const res = await axios.post("/api/users/login", user);
-      //console.log("res:", res)
-      toast.success(res.data.message);
-      setTimeout(() => { router.push(`/profile/${res.data.user._id}`) }, 1000);
+
+      //if (res.data) {
+        toast.success(res.data.message);
+        resetForm();
+          router.push(`/profile/${res.data.user?._id}`) 
+        return null;
+      //}
 
     } catch (error: any) {
+      console.log("error:", error)
       toast.error(error.message);
 
     } finally {
-      resetForm();
       setLoading(false);
     }
   }
 
   return (
     <div className='flex bg-[#f5f5f5] flex-col justify-center items-center min-h-screen py-2'>
-      <Toaster />
       <form action="" className="bg-white p-7 w-[30%] shadow-lg rounded" onSubmit={onLogin}>
-
-        <h1 className="text-center text-xl border-b-2 mx-auto font-bold  w-20 border-orange-500 pb-1">{loading ? "Processing" : "Login"} </h1>
+        <h1 className="text-center text-xl font-bold   pb-1">{loading ? "Processing" : "Login"} </h1>
+        <hr className='h-[3px] rounded-lg w-1/4 mx-auto bg-orange-500' />
         <br />
         <label className='mb-2 block font-semibold' htmlFor="email"> Email</label>
         <input
@@ -79,7 +84,12 @@ const LoginPage = () => {
         <br />
         <small>
           Haven&apos;t account?
-          <Link href="/signup"> Signup  </Link>
+          <Link className="font-bold" href="/signup"> Signup  </Link>
+        </small>
+        <br />
+        <small>
+          forgot password?
+          <Link className="font-bold" href="/resetpassword"> Reset password  </Link>
         </small>
       </form>
     </div>

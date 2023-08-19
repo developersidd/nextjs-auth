@@ -1,10 +1,11 @@
 "use client";
 
+import Toast from '@/ui/Toast';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState, useEffect, FormEvent } from 'react'
-import toast, {Toaster}  from 'react-hot-toast';
+import { FormEvent, useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 
 const SignUpPage = () => {
@@ -26,13 +27,18 @@ const SignUpPage = () => {
         try {
             setLoading(true);
             const res = await axios.post("/api/users/signup", user);
-            console.log("res:", res)
-            toast.success(res.data.message);
+            toast.success(
+                <div>
+                    <h3> {res.data.message} </h3>
+                    <Link href={res.data.link}> {res.data.subject} </Link>
+                </div>,
+                {
+                    position: "bottom-right",
+                    duration: 10000
+                });
             resetForm();
-            setTimeout(() => {router.push(`/login`)}, 1500);
-            
         } catch (error: any) {
-          return toast.error(error.message);
+            return toast.error(error.response.data.message);
         } finally {
             setLoading(false);
         }
@@ -44,18 +50,18 @@ const SignUpPage = () => {
         } else {
             setButtonDisabled(true);
         }
-    }, [user])
+    }, [user]);
 
 
-  
+
     return (
 
         <div className='flex bg-[#f5f5f5] flex-col justify-center items-center min-h-screen py-2'>
-          <Toaster />
+            <Toast />
             <form action="" className="bg-white p-7 w-[30%] shadow-lg rounded" onSubmit={onSignup}>
 
-                <h1 className="text-center text-xl border-b-2 mx-auto font-bold  w-20 border-orange-500 pb-1"> {loading ? "Processing" : "Signup"} </h1>
-                <br />
+                <h1 className="text-center text-xl font-bold   pb-1">{loading ? "Processing" : "Signup"} </h1>
+                <hr className='h-[3px] rounded-lg w-1/4 mx-auto bg-orange-500' />
                 <label className='mb-2 block font-semibold' htmlFor="username"> Username</label>
                 <input
                     type="text"
@@ -86,11 +92,11 @@ const SignUpPage = () => {
                     className='w-full outline-none p-3  rounded border-2 focus:border-orange-500 mb-1 text-sm'
                 />
                 <br />
-                <button type='submit' disabled={buttonDisabled || loading} className={`${(buttonDisabled || loading) ? "opacity-50" : "opacity-100"} px-6 py-2 border-2 border-orange-500 rounded shadow my-3`}> {buttonDisabled ? "No Signup" : "Signup"} </button>
+                <button type='submit' disabled={buttonDisabled || loading} className={`${(buttonDisabled || loading) ? "opacity-50" : "opacity-100"} px-6 py-2 border-2 border-orange-500 rounded shadow my-3`}>  Signup </button>
                 <br />
                 <small>
                     have an account?
-                    <Link href="/login">  Login   </Link>
+                    <Link href="/login" className="font-bold"> Login </Link>
                 </small>
             </form>
         </div>
